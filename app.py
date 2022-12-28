@@ -1,6 +1,7 @@
 import pickle
 import streamlit as st
 import requests
+import dill
 import os
 
 def fetch_poster(movie_id):
@@ -26,8 +27,14 @@ def recommend(movie):
 
 
 st.header('Movie Recommender System')
-movies = pickle.load(open(os.path.join(os.getcwd(), "movie_list.pkl"),'rb'))
-similarity = pickle.load(open(os.path.join(os.getcwd(), 'similarity.pkl'),'rb'))
+# movies = pickle.load(open(os.path.join(os.getcwd(), "movie_list.pkl"),'rb'))
+# similarity = pickle.load(open(os.path.join(os.getcwd(), 'similarity.pkl'),'rb'))
+
+with open(os.path.join(os.getcwd(), "movie_list.pkl"), "rb") as file_obj:
+    movies = dill.load(file_obj)
+
+with open(os.path.join(os.getcwd(), "similarity.pkl"), "rb") as file_obj:
+    similarity = dill.load(file_obj)
 
 movie_list = movies['title'].values
 selected_movie = st.selectbox(
